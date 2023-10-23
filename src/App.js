@@ -51,11 +51,11 @@ export default function App() {
   return (
     <Router>
       <Routes>
-        <Route exact path="/" element={<Home />} />
+        <Route exact path="/" element={<Login />} />
         <Route exact path="/login" element={<Login />} />
         {/* <Route exact path="*" element={<Error404 />} /> */}
         <Route element={<ProtectedRoute />}>
-          <Route path="/dashboard" element={<Home />} />
+          <Route path="/overview" element={<Home />} />
         </Route>
       </Routes>
     </Router>

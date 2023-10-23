@@ -11,22 +11,22 @@ export default function Header() {
     {
       id: 1,
       name: "Overview",
-      Url: "/",
+      Url: "/overview",
     },
     {
       id: 2,
       name: "Transactions",
-      Url: "/announcements",
+      Url: "/transactions",
     },
     {
       id: 3,
       name: "Categories",
-      Url: "/approval",
+      Url: "/categories",
     },
     {
       id: 4,
       name: "Settings",
-      Url: "/approval",
+      Url: "/settings",
     },
   ];
 
