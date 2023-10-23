@@ -18,9 +18,13 @@ module.exports = {
       colors: {
         primary: "#4094F7",
         secondary: "#474747",
-        search_bg: "#ffb700",
         button_hover: "#2267CF",
+        white_hover : "#EEEEEE"
       },
+      fontSize: {
+        primarysize: '1rem',
+        title: '1.5rem',
+      }
     },
   },
   plugins: [],

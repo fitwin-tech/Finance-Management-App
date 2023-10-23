@@ -11,7 +11,7 @@ import "./App.css";
 
 //Compornents and Pages
 import Home from "./Pages/Home";
-//import Error404 from "./Pages/Error404";
+import Error404 from "./Pages/Error404";
 import Login from "./Pages/Login";
 
 export default function App() {
@@ -51,11 +51,10 @@ export default function App() {
   return (
     <Router>
       <Routes>
-        <Route exact path="/" element={<Login />} />
         <Route exact path="/login" element={<Login />} />
-        {/* <Route exact path="*" element={<Error404 />} /> */}
+        <Route exact path="*" element={<Error404 />} />
         <Route element={<ProtectedRoute />}>
-          <Route path="/overview" element={<Home />} />
+          <Route exact path="/" element={<Home />} />
         </Route>
       </Routes>
     </Router>

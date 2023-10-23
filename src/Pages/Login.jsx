@@ -49,7 +49,7 @@ export default function Login() {
       if (accessToken) {
         // Successfully logged in, set the token using setToken function
         localStorage.setItem("userData", JSON.stringify(data));
-        navigate("/overview");
+        navigate("/");
       } else {
         console.error("Login failed with access token");
       }
@@ -74,8 +74,8 @@ export default function Login() {
           <div className="flex justify-center">
             <img src={Logo} alt="logo" className="w-[12rem]" />
           </div>
-          <p className="text-title2 font-bold text-center">
-            Sign in or create an account
+          <p className="text-title font-semibold text-center">
+            Log in
           </p>
           <div className="space-y-4">
             <div className="w-full space-y-2">
