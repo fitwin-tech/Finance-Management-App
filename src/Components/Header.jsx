@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Logo from "../Assets/logo-with-text.png";
 import { IoMdArrowDropdown } from "react-icons/io";
+import axios from "axios";
+import api from "../Api";
 
 export default function Header() {
   const navigate = useNavigate();
@@ -9,6 +11,38 @@ export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const userDataString = localStorage.getItem("userData");
   const userData = userDataString ? JSON.parse(userDataString) : {};
+  const [userDetails, setUserDetails] = useState({});
+  // const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    axios
+      .get(`${api.balance}/${userData.id}`, {
+        headers: {
+          api_key: api.key,
+          authantication: api.authantication,
+        },
+      })
+      .then((response) => {
+        setUserDetails(response.data);
+        //setLoading(false);
+        console.log(response);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+        //setLoading(true);
+      });
+  }, [userData.id]);
+
+  const formatNumber = (number) => {
+    if (number !== undefined) {
+      const formattedNumber = parseFloat(number).toLocaleString("en-US", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
+      return formattedNumber;
+    }
+    return "";
+  };
 
   const logout = () => {
     localStorage.removeItem("userData");
@@ -71,7 +105,10 @@ export default function Header() {
         </div>
       </div>
       <div className="flex justify-end w-full items-center space-x-4">
-        <p className="font-bold text-primarysize">Balance : {userData.currency}12,680.90</p>
+        <p className="font-bold text-primarysize">
+          Balance: {userData.currency}{" "}
+          {formatNumber(userDetails.balance?.$numberDecimal)}
+        </p>
         <div className="flex items-center space-x-4 text-primarysize">
           <img
             className="rounded-full w-[3rem]"
