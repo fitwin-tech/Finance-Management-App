@@ -9,7 +9,8 @@ const requests = {
   Domain : process.env.REACT_APP_DOMAIN,
   login : `${Domain}/auth/login`,
   signup : `${Domain}/auth/signup`,
-  balance : `${Domain}/auth/balance/view`
+  balance : `${Domain}/auth/balance/view`,
+  userdetails : `${Domain}/auth/userdetails`
 };
 
 export default requests;

@@ -24,6 +24,12 @@ module.exports = {
       fontSize: {
         primarysize: '1rem',
         title: '1.5rem',
+        subtitle: '0.9rem',
+        title2: '1.2rem',
+      },
+      maxWidth: {
+        primary: '1440px',
+        login: '450px',
       }
     },
   },

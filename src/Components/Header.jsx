@@ -7,6 +7,8 @@ export default function Header() {
   const navigate = useNavigate();
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
+  const userDataString = localStorage.getItem("userData");
+  const userData = userDataString ? JSON.parse(userDataString) : {};
 
   const logout = () => {
     localStorage.removeItem("userData");
@@ -69,7 +71,7 @@ export default function Header() {
         </div>
       </div>
       <div className="flex justify-end w-full items-center space-x-4">
-        <p className="font-bold text-primarysize">Balance : $12,680.90</p>
+        <p className="font-bold text-primarysize">Balance : {userData.currency}12,680.90</p>
         <div className="flex items-center space-x-4 text-primarysize">
           <img
             className="rounded-full w-[3rem]"
@@ -77,7 +79,7 @@ export default function Header() {
             alt="profile"
           />
           <p onClick={() => setIsOpen(!isOpen)} className="cursor-pointer">
-            Naveen Dissanayaka
+            {userData.firstname} {userData.lastname}
           </p>
           <div className="relative">
             <IoMdArrowDropdown

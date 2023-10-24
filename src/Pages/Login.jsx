@@ -8,6 +8,7 @@ import api from "../Api";
 export default function Login() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const [errorMessege, setErrorMessege] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const userDataString = localStorage.getItem("userData");
@@ -52,9 +53,11 @@ export default function Login() {
         navigate("/");
       } else {
         console.error("Login failed with access token");
+        setErrorMessege("Username or password incorrect");
       }
     } catch (error) {
       console.error("Login failed:", error);
+      setErrorMessege("Username or password incorrect");
     } finally {
       setIsLoading(false);
     }
@@ -74,9 +77,7 @@ export default function Login() {
           <div className="flex justify-center">
             <img src={Logo} alt="logo" className="w-[12rem]" />
           </div>
-          <p className="text-title font-semibold text-center">
-            Log in
-          </p>
+          <p className="text-title font-semibold text-center">Log in</p>
           <div className="space-y-4">
             <div className="w-full space-y-2">
               <p>Email Address</p>
@@ -96,8 +97,14 @@ export default function Login() {
                 className="border border-black/[.50] rounded-default p-2 w-full outline-none"
                 onChange={(e) => setPassword(e.target.value)}
                 value={password}
+                onKeyUp={(e) => {
+                  if (e.key === "Enter") {
+                    handleLogin(e);
+                  }
+                }}
               />
             </div>
+            <div>{errorMessege ? <p className="text-primarysize text-red-500">{errorMessege}</p> : ""}</div>
             <div className="flex justify-end">
               <p>Forgot Password?</p>
             </div>
