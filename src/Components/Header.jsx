@@ -52,7 +52,7 @@ export default function Header() {
   return (
     <div className="p-3 flex items-center border-b w-full">
       <div className="flex justify-start space-x-4 w-full">
-        <img src={Logo} alt="img" className="w-[10rem]" />
+        <img onClick={() => navigate("/")} src={Logo} alt="img" className="w-[10rem] cursor-pointer" />
         <div className="flex items-center space-x-4 capitalize">
           {menuItems.map((item) => (
             <div key={item.id}>

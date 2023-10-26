@@ -2,11 +2,14 @@ import React, { useState } from "react";
 import Transaction from "../Json/Transactions.json";
 import { useAnalitics } from "../Context/AnaliticsContext";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
+import { IoIosArrowUp } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
 
 export default function Transactions() {
   const { userData, formatNumber } = useAnalitics();
   const [isOpen, setIsOpen] = useState(false);
   const today = new Date().toLocaleDateString();
+  const navigate = useNavigate();
 
   // Create a dropdown JSON for date ranges
   const dropdown = [
@@ -132,6 +135,13 @@ export default function Transactions() {
               </div>
             </div>
           ))}
+        </div>
+        <div className="flex items-center space-x-1 justify-end text-primary">
+          <p className="cursor-pointer" onClick={() => navigate("/transactions")}>See All Transactions</p>
+          <IoIosArrowUp
+            onClick={() => navigate("/transactions")}
+            className="rotate-90 cursor-pointer"
+          />
         </div>
       </div>
     </div>

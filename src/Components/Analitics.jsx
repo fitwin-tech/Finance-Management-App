@@ -13,32 +13,66 @@ export default function Analitics() {
     return number.toFixed(1);
   };
 
+  const ThisMonthExpenceDefarance = formatNumberWithOneDecimal(
+    [
+      (userDetails.thisMonthExpenses?.$numberDecimal -
+        userDetails.lastMonthExpenses?.$numberDecimal) /
+        userDetails.thisMonthExpenses?.$numberDecimal,
+    ] * 100
+  );
+
+  const ThisWeekExpenceDefarance = formatNumberWithOneDecimal(
+    [
+      (userDetails.thisWeekExpenses?.$numberDecimal -
+        userDetails.lastWeekExpenses?.$numberDecimal) /
+        userDetails.thisWeekExpenses?.$numberDecimal,
+    ] * 100
+  );
+
+  const TodayExpenceDefarance = formatNumberWithOneDecimal(
+    [
+      (userDetails.todayExpenses?.$numberDecimal -
+        userDetails.yesterdayExpenses?.$numberDecimal) /
+        userDetails.todayExpenses?.$numberDecimal,
+    ] * 100
+  );
+
+  const ThisWeekIncomeDefarance = formatNumberWithOneDecimal(
+    [
+      (userDetails.thisWeekIncome?.$numberDecimal -
+        userDetails.lastWeekIncome?.$numberDecimal) /
+        userDetails.thisWeekIncome?.$numberDecimal,
+    ] * 100
+  );
+
+  const ThisMonthIncomeDefarance = formatNumberWithOneDecimal(
+    [
+      (userDetails.thisMonthIncome?.$numberDecimal -
+        userDetails.lastMonthIncome?.$numberDecimal) /
+        userDetails.thisMonthIncome?.$numberDecimal,
+    ] * 100
+  );
+
   const expenses = [
     {
       id: 1,
       name: "today expenses",
       amount: formatNumber(userDetails.todayExpenses?.$numberDecimal),
-      defarance: "64%",
+      defarance: TodayExpenceDefarance,
       Url: "/",
     },
     {
       id: 2,
       name: "this week expenses",
       amount: formatNumber(userDetails.lastWeekExpenses?.$numberDecimal),
-      defarance: "34%",
+      defarance: ThisWeekExpenceDefarance,
       Url: "/transactions",
     },
     {
       id: 3,
       name: "this month expenses",
       amount: formatNumber(userDetails.thisMonthExpenses?.$numberDecimal),
-      defarance: formatNumberWithOneDecimal(
-        [
-          (userDetails.lastMonthExpenses?.$numberDecimal -
-            userDetails.thisMonthExpenses?.$numberDecimal) /
-            userDetails.lastMonthExpenses?.$numberDecimal,
-        ] * 100
-      ),
+      defarance: ThisMonthExpenceDefarance,
       Url: "/categories",
     },
   ];
@@ -48,17 +82,14 @@ export default function Analitics() {
       id: 1,
       name: "this week income",
       amount: formatNumber(userDetails.thisWeekIncome?.$numberDecimal),
-      defarance: "4%",
+      defarance: ThisWeekIncomeDefarance,
       Url: "/settings",
     },
     {
       id: 2,
       name: "this month income",
       amount: formatNumber(userDetails.thisMonthIncome?.$numberDecimal),
-      defarance:
-        (userDetails.thisMonthIncome?.$numberDecimal /
-          userDetails.lastMonthIncome?.$numberDecimal) *
-        100,
+      defarance: ThisMonthIncomeDefarance,
       Url: "/settings",
     },
   ];
@@ -83,10 +114,20 @@ export default function Analitics() {
                     {" "}
                     {userData.currency} {item.amount}
                   </p>
-                  <div className="w-1/5 flex justify-end items-center">
-                    <p className="text-red">{item.defarance}</p>
+                  <div className={`w-1/5 flex justify-end items-center`}>
+                    <p
+                      className={item.defarance < 0 ? "text-green" : "text-red"}
+                    >
+                      {Math.abs(item.defarance)}%
+                    </p>
                   </div>
-                  <BsArrowUpShort className="text-title text-red" />
+                  <BsArrowUpShort
+                    className={
+                      item.defarance < 0
+                        ? "text-title text-green rotate-180"
+                        : "text-title text-red"
+                    }
+                  />
                 </div>
               </div>
             );
@@ -102,13 +143,20 @@ export default function Analitics() {
               </p>
               <div className="flex w-full items-center">
                 <p className="w-4/5 font-semibold text-title2">
-                  {" "}
                   {userData.currency} {item.amount}
                 </p>
-                <div className="w-1/5 flex justify-end items-center">
-                  <p>36%</p>
+                <div className={`w-1/5 flex justify-end items-center`}>
+                  <p className={item.defarance < 0 ? "text-red" : "text-green"}>
+                    {Math.abs(item.defarance)}%
+                  </p>
                 </div>
-                <BsArrowUpShort className="text-title" />
+                <BsArrowUpShort
+                  className={
+                    item.defarance < 0
+                      ? "text-title text-red rotate-180"
+                      : "text-title text-green"
+                  }
+                />
               </div>
             </div>
           ))}

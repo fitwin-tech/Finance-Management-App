@@ -104,7 +104,7 @@ export default function Login() {
                 }}
               />
             </div>
-            <div>{errorMessege ? <p className="text-primarysize text-red-500">{errorMessege}</p> : ""}</div>
+            <div>{errorMessege ? <p className="text-primarysize text-red">{errorMessege}</p> : ""}</div>
             <div className="flex justify-end">
               <p>Forgot Password?</p>
             </div>

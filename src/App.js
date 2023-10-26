@@ -13,6 +13,9 @@ import "./App.css";
 import Home from "./Pages/Home";
 import Error404 from "./Pages/Error404";
 import Login from "./Pages/Login";
+import Transactions from "./Pages/Transactions";
+import Categories from "./Pages/Categories";
+import Settings from "./Pages/Settings";
 
 export default function App() {
   // Initialize userData to an empty object to avoid undefined errors
@@ -55,6 +58,9 @@ export default function App() {
         <Route exact path="*" element={<Error404 />} />
         <Route element={<ProtectedRoute />}>
           <Route exact path="/" element={<Home />} />
+          <Route exact path="/transactions" element={<Transactions/>} />
+          <Route exact path="/categories" element={<Categories/>} />
+          <Route exact path="/settings" element={<Settings/>} />
         </Route>
       </Routes>
     </Router>
