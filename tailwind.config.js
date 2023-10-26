@@ -19,13 +19,15 @@ module.exports = {
         primary: "#4094F7",
         secondary: "#474747",
         button_hover: "#2267CF",
-        white_hover : "#EEEEEE"
+        white_hover : "#EEEEEE",
+        red : "#D31C1C",
+        green : "#318015"
       },
       fontSize: {
         primarysize: '1rem',
         title: '1.5rem',
         subtitle: '0.9rem',
-        title2: '1.2rem',
+        title2: '1.1rem',
       },
       maxWidth: {
         primary: '1440px',

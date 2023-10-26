@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "title": "Monthly groceries",
+    "date": "10/26/2023",
+    "amount": 123.65,
+    "category": "Keels super",
+    "is_income": false
+  },
+  {
+    "id": 2,
+    "title": "payCheck",
+    "date": "10/24/2023",
+    "amount": 118456.95,
+    "category": "ebeyonds",
+    "is_income": true
+  },
+  {
+    "id": 3,
+    "title": "car wash",
+    "date": "10/26/2023",
+    "amount": 1456,
+    "category": "vehicle",
+    "is_income": false
+  },
+  {
+    "id": 4,
+    "title": "coffee",
+    "date": "10/26/023",
+    "amount": 150,
+    "category": "junk food",
+    "is_income": false
+  },
+  {
+    "id": 5,
+    "title": "Movie",
+    "date": "10/25/2023",
+    "amount": 870.60,
+    "category": "leature",
+    "is_income": false
+  }
+]

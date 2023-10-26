@@ -1,6 +1,7 @@
 import React from "react";
 import Header from "../Components/Header";
 import Analitics from "../Components/Analitics";
+import Transactions from "../Components/Transactions";
 
 export default function Home() {
   const userDataString = localStorage.getItem("userData");
@@ -18,8 +19,16 @@ export default function Home() {
         </p>
       </div>
       <div className="flex justify-center">
-        <div className="max-w-primary w-full px-20">
-          <Analitics/>
+        <div className="max-w-primary w-full px-20 space-y-4">
+          <Analitics />
+          <div className="flex space-x-4">
+            <div className="w-[59.5%]">
+              <Transactions />
+            </div>
+            <div className="w-[39.2%]">
+              {/* <Transactions /> */}
+            </div>
+          </div>
         </div>
       </div>
     </div>

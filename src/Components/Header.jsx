@@ -1,46 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Logo from "../Assets/logo-with-text.png";
 import { IoMdArrowDropdown } from "react-icons/io";
-import io from 'socket.io-client';
+import { useAnalitics } from "../Context/AnaliticsContext";
 
 export default function Header() {
   const navigate = useNavigate();
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
-  const userDataString = localStorage.getItem("userData");
-  const userData = userDataString ? JSON.parse(userDataString) : {};
-  const [balance, setBalance] = useState(0);
-
-  // Define the socket.io URL outside of useEffect
-  const socket = io('http://192.168.1.8:3001', {
-  });
-
-  useEffect(() => {
-    socket.on('balanceUpdate', (newBalance) => {
-      setBalance(newBalance);
-    });
-
-    return () => {
-      socket.disconnect();
-    };
-  }, [socket]);
-
-  const formatNumber = (number) => {
-    if (number !== undefined) {
-      return parseFloat(number).toLocaleString("en-US", {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-      });
-    }
-    return "";
-  };
+  const { userDetails, userData, formatNumber } = useAnalitics();
 
   const logout = () => {
     localStorage.removeItem("userData");
     navigate("/login");
   };
-
   const menuItems = [
     {
       id: 1,
@@ -63,17 +36,16 @@ export default function Header() {
       Url: "/settings",
     },
   ];
-
   const dropdown = [
     {
       id: 1,
       name: "Log Out",
-      Url: logout,
+      Url: logout, // This is a function
     },
     {
       id: 2,
       name: "Settings",
-      Url: "/announcements",
+      Url: "/announcements", // This is a string
     },
   ];
 
@@ -99,7 +71,7 @@ export default function Header() {
       <div className="flex justify-end w-full items-center space-x-4">
         <p className="font-bold text-primarysize">
           Balance: {userData.currency}{" "}
-          {formatNumber(balance)}
+          {formatNumber(userDetails.balance?.$numberDecimal)}
         </p>
         <div className="flex items-center space-x-4 text-primarysize">
           <img
@@ -118,11 +90,15 @@ export default function Header() {
               onClick={() => setIsOpen(!isOpen)}
             />
             {isOpen && (
-              <ul className="absolute top-16 w-[12rem] right-0 rounded shadow bg-input_bg z-10">
+              <ul className="absolute top-16 w-[12rem] right-0 rounded shadow bg-input_bg z-10 bg-white">
                 {dropdown.map((index) => (
                   <li
                     key={index.id}
-                    onClick={index.Url}
+                    onClick={
+                      typeof index.Url === "function"
+                        ? index.Url
+                        : () => navigate(index.Url)
+                    }
                     className="capitalize cursor-pointer hover:bg-white_hover px-4 py-2"
                   >
                     {index.name}
