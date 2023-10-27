@@ -1,0 +1,21 @@
+[
+  {
+    "id": 1,
+    "category_name": "keels super",
+    "amount": 10365.65,
+    "is_income" : true
+  },
+  {
+    "id": 2,
+    "category_name": "ebeyonds",
+    "amount": 90365.75,
+    "is_income" : true
+  },
+  {
+    "id": 2,
+    "category_name": "Allowence",
+    "amount": 25123.22,
+    "is_income" : true
+  }
+
+]

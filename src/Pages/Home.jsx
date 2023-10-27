@@ -2,6 +2,7 @@ import React from "react";
 import Header from "../Components/Header";
 import Analitics from "../Components/Analitics";
 import Transactions from "../Components/Transactions";
+import IncomeResources from "../Components/IncomeResources";
 
 export default function Home() {
   const userDataString = localStorage.getItem("userData");
@@ -13,7 +14,7 @@ export default function Home() {
       <div className="flex justify-center py-4">
         <p className="max-w-primary w-full px-20 capitalize text-primarysize">
           <strong>Hi {userData.firstname} - </strong>
-          <span className="text-black/[.60] font-semibold">
+          <span className="text-black/[.60] font-medium">
             Here is whats happaning with your finanse
           </span>
         </p>
@@ -26,7 +27,7 @@ export default function Home() {
               <Transactions />
             </div>
             <div className="w-[39.2%]">
-              {/* <Transactions /> */}
+              <IncomeResources/>
             </div>
           </div>
         </div>

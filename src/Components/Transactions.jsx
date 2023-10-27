@@ -8,7 +8,6 @@ import { useNavigate } from "react-router-dom";
 export default function Transactions() {
   const { userData, formatNumber } = useAnalitics();
   const [isOpen, setIsOpen] = useState(false);
-  const today = new Date().toLocaleDateString();
   const navigate = useNavigate();
 
   // Create a dropdown JSON for date ranges
@@ -70,7 +69,7 @@ export default function Transactions() {
           <div className="w-full">
             <p className="font-bold">Transactions</p>
             <p className="text-subtitle text-black/[.70]">
-              View your all expenses and income you have done recently {today}
+              View your all expenses and income you have done recently
             </p>
           </div>
           <div className="w-[150px] flex justify-end items-cinter">

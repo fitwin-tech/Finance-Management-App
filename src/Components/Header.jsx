@@ -45,7 +45,7 @@ export default function Header() {
     {
       id: 2,
       name: "Settings",
-      Url: "/announcements", // This is a string
+      Url: "/settings", // This is a string
     },
   ];
 
