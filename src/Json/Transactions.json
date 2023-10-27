@@ -38,5 +38,37 @@
     "amount": 870.60,
     "category": "leature",
     "is_income": false
+  },
+  {
+    "id": 6,
+    "title": "Coffe",
+    "date": "10/27/2023",
+    "amount": 150,
+    "category": "junk food",
+    "is_income": false
+  },
+  {
+    "id": 7,
+    "title": "Tuk Tuk to go patta interview",
+    "date": "10/27/2023",
+    "amount": 195.67,
+    "category": "wife",
+    "is_income": false
+  },
+  {
+    "id": 8,
+    "title": "Data cart for patta",
+    "date": "10/27/2023",
+    "amount": 269.67,
+    "category": "wife",
+    "is_income": false
+  },
+  {
+    "id": 9,
+    "title": "Monthly savings",
+    "date": "10/27/2023",
+    "amount": 5000,
+    "category": "wife",
+    "is_income": false
   }
 ]

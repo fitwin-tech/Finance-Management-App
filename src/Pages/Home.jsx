@@ -3,6 +3,7 @@ import Header from "../Components/Header";
 import Analitics from "../Components/Analitics";
 import Transactions from "../Components/Transactions";
 import IncomeResources from "../Components/IncomeResources";
+import ExpenceResources from "../Components/ExpenceResources";
 
 export default function Home() {
   const userDataString = localStorage.getItem("userData");
@@ -26,8 +27,9 @@ export default function Home() {
             <div className="w-[59.5%]">
               <Transactions />
             </div>
-            <div className="w-[39.2%]">
+            <div className="w-[39.2%] space-y-4">
               <IncomeResources/>
+              <ExpenceResources/>
             </div>
           </div>
         </div>

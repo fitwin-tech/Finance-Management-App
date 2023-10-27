@@ -2,13 +2,13 @@ import React from "react";
 import Income from "../Json/income.json";
 import { useAnalitics } from "../Context/AnaliticsContext";
 
-export default function IncomeResources() {
+export default function ExpenceResources() {
   const { userDetails, userData, formatNumber } = useAnalitics();
 
   return (
     <div className="border rounded-md p-4 space-y-4">
       <div>
-        <h1 className="font-bold capitalize">Income Resources</h1>
+        <h1 className="font-bold capitalize">Expence Resources</h1>
       </div>
       {Income.map((index) => (
         <div key={index.id} className="pt-1">

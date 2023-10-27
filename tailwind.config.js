@@ -7,10 +7,6 @@ module.exports = {
   ],
   theme: {
     extend: {
-      maxWidth: {
-        default: "1110px",
-        login: "450px",
-      },
       borderRadius: {
         default: "0.25rem",
         header_button: "2rem",

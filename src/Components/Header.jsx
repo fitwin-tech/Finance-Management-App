@@ -26,11 +26,6 @@ export default function Header() {
       Url: "/transactions",
     },
     {
-      id: 3,
-      name: "Categories",
-      Url: "/categories",
-    },
-    {
       id: 4,
       name: "Settings",
       Url: "/settings",
@@ -70,7 +65,7 @@ export default function Header() {
       </div>
       <div className="flex justify-end w-full items-center space-x-4">
         <p className="font-bold text-primarysize">
-          Balance: {userData.currency}{" "}
+          Balance: {userData.currency}
           {formatNumber(userDetails.balance?.$numberDecimal)}
         </p>
         <div className="flex items-center space-x-4 text-primarysize">
