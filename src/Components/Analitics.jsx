@@ -7,8 +7,8 @@ export default function Analitics() {
 
   // Define a number formatting function
   const formatNumberWithOneDecimal = (number) => {
-    if (typeof number !== "number") {
-      return "N/A";
+    if (typeof number !== "number" || isNaN(number)) {
+      return 0;
     }
     return number.toFixed(1);
   };
@@ -64,7 +64,7 @@ export default function Analitics() {
     {
       id: 2,
       name: "this week expenses",
-      amount: formatNumber(userDetails.lastWeekExpenses?.$numberDecimal),
+      amount: formatNumber(userDetails.thisWeekExpenses?.$numberDecimal),
       defarance: ThisWeekExpenceDefarance,
       Url: "/transactions",
     },

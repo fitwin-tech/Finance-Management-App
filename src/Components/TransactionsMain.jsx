@@ -1,12 +1,14 @@
-import React, { useState } from "react";
-import Transaction from "../Json/Transactions.json";
+import React, { useState, useEffect } from "react";
 import { useAnalitics } from "../Context/AnaliticsContext";
 import AddTransactions from "../Components/Popups/AddTransactions";
 import { MdDeleteOutline } from "react-icons/md";
+import api from "../Api"
+import axios from "axios";
 
 export default function TransactionsMain() {
   const { userData, formatNumber } = useAnalitics();
   const [popupVisible, setPopupVisible] = useState(false);
+  const [transactions, setTransactions] = useState([]);
 
   const openPopup = () => {
     setPopupVisible(true);
@@ -15,6 +17,33 @@ export default function TransactionsMain() {
   const closePopup = () => {
     setPopupVisible(false);
   };
+
+  useEffect(() => {
+    axios
+      .get(`${api.getTransactions}/${userData.id}`, {
+        headers: {
+          api_key: api.key,
+          authantication: api.authantication,
+        },
+      })
+      .then((response) => {
+        setTransactions(response.data.transactions);
+        //setLoading(false);
+        console.log(response);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+        //setLoading(true);
+      });
+  }, [userData.id]);
+
+  // Helper function to format the date
+function formatDate(dateString) {
+  const date = new Date(dateString);
+  const options = { year: 'numeric', month: 'long', day: 'numeric' };
+  return date.toLocaleDateString('en-US', options);
+}
+
   return (
     <div>
       <div className="border w-full p-4 rounded-lg space-y-6">
@@ -35,7 +64,7 @@ export default function TransactionsMain() {
           </div>
         </div>
         <div className="space-y-4">
-          {Transaction.map((index) => (
+          {transactions.map((index) => (
             <div
               className="grid grid-cols-4 gap-4 text-subtitle text-black/[.70]"
               key={index.id}
@@ -44,11 +73,11 @@ export default function TransactionsMain() {
                 <p className="font-semibold text-black capitalize">
                   {index.title}
                 </p>
-                <p>{index.date}</p>
+                <p>{formatDate(index.date)}</p>
               </div>
               <div className="flex space-x-1 items-center">
                 <p>{userData.currency}</p>
-                <p>{formatNumber(index.amount)}</p>
+                <p>{formatNumber(index.amount.$numberDecimal)}</p>
               </div>
               <div className="flex justify-end items-center capitalize">
                 <p>{index.category}</p>

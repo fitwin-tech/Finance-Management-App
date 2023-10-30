@@ -10,7 +10,10 @@ const requests = {
   login : `${Domain}/auth/login`,
   signup : `${Domain}/auth/signup`,
   balance : `${Domain}/auth/balance/view`,
-  userdetails : `${Domain}/auth/userdetails`
+  userdetails : `${Domain}/auth/userdetails`,
+  category : `${Domain}/category`,
+  transaction : `${Domain}/transactions/add`,
+  getTransactions : `${Domain}/transactions/get`,
 };
 
 export default requests;

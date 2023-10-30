@@ -4,11 +4,20 @@ import { useAnalitics } from "../Context/AnaliticsContext";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import { IoIosArrowUp } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
+// import axios from "axios";
+// import api from "../Api";
 
 export default function Transactions() {
   const { userData, formatNumber } = useAnalitics();
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
+
+  // Helper function to format the date
+  function formatDate(dateString) {
+    const date = new Date(dateString);
+    const options = { year: "numeric", month: "long", day: "numeric" };
+    return date.toLocaleDateString("en-US", options);
+  }
 
   // Create a dropdown JSON for date ranges
   const dropdown = [
@@ -112,7 +121,7 @@ export default function Transactions() {
                 <p className="font-semibold text-black capitalize">
                   {index.title}
                 </p>
-                <p>{index.date}</p>
+                <p>{formatDate(index.date)}</p>
               </div>
               <div className="flex space-x-1 items-center">
                 <p>{userData.currency}</p>
@@ -136,7 +145,12 @@ export default function Transactions() {
           ))}
         </div>
         <div className="flex items-center space-x-1 justify-end text-primary">
-          <p className="cursor-pointer" onClick={() => navigate("/transactions")}>See All Transactions</p>
+          <p
+            className="cursor-pointer"
+            onClick={() => navigate("/transactions")}
+          >
+            See All Transactions
+          </p>
           <IoIosArrowUp
             onClick={() => navigate("/transactions")}
             className="rotate-90 cursor-pointer"
