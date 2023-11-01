@@ -4,8 +4,8 @@ import { useAnalitics } from "../../Context/AnaliticsContext";
 import api from "../../Api";
 import axios from "axios";
 
-export default function AddTransactions({ onClose }) {
-  const { userData , categoryList } = useAnalitics();
+export default function AddTransactions({ onClose, setTransactions }) {
+  const { userData, categoryList } = useAnalitics();
   const [isOpen, setIsOpen] = useState(false);
   const [categoryTitle, setCategoryTitle] = useState("Select your category");
   const [categoryId, setCategoryId] = useState("Select your category");
@@ -62,11 +62,12 @@ export default function AddTransactions({ onClose }) {
       );
 
       console.log("Transaction response:", response);
+      setTransactions((transactions) => [...transactions, response.data]);
     } catch (error) {
       console.error("adding failed:", error);
     } finally {
       setIsLoading(false);
-      setSuccessMessege("Transaction Successfuly added")
+      setSuccessMessege("Transaction Successfuly added");
     }
   };
 
@@ -165,7 +166,10 @@ export default function AddTransactions({ onClose }) {
           </button>
         </div>
 
-        <button onClick={handleTransaction} className="bg-primary px-4 py-2 rounded-md text-white hover:bg-button_hover text-subtitle capitalize">
+        <button
+          onClick={handleTransaction}
+          className="bg-primary px-4 py-2 rounded-md text-white hover:bg-button_hover text-subtitle capitalize"
+        >
           {isLoading ? "Loading..." : "Add New"}
         </button>
       </div>

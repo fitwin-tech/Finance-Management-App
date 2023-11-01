@@ -6,7 +6,7 @@ import axios from "axios";
 export default function AddCategories() {
   const [isIncome, setIsIncome] = useState(false);
   const [isExpence, setIsExpence] = useState(false);
-  const { userData, categoryList } = useAnalitics();
+  const { userData, categoryList, updateCategoryList } = useAnalitics();
   const [isLoading, setIsLoading] = useState(false);
   const [successMessege, setSuccessMessege] = useState("");
   const [title, setTitle] = useState();
@@ -45,6 +45,9 @@ export default function AddCategories() {
         }
       );
 
+      // After adding a category, update the category list
+      updateCategoryList([...categoryList, response.data]); // Assuming response.data contains the new category
+
       console.log("Category response:", response);
     } catch (error) {
       console.error("Category failed:", error);
@@ -62,9 +65,15 @@ export default function AddCategories() {
 
       <p className="text-green">{successMessege}</p>
 
-      <div className="flex items-center w-full space-x-4 capitalize">
+      <div className="w-full capitalize grid grid-cols-4 gap-4">
         {categoryList.map((index) => (
-          <div className={`p-1 px-4 rounded-md text-subtitle ${index.is_income ? ("text-green bg-green/[.15]") : ("text-red bg-red/[.15]")}`}>
+          <div
+            className={`p-2 px-4 rounded-sm text-center text-subtitle ${
+              index.is_income
+                ? "text-green bg-green/[.15]"
+                : "text-red bg-red/[.15]"
+            }`}
+          >
             <p>{index.title}</p>
           </div>
         ))}

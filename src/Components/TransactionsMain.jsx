@@ -27,8 +27,11 @@ export default function TransactionsMain() {
         },
       })
       .then((response) => {
-        setTransactions(response.data.transactions);
-        //setLoading(false);
+        const sortedTransactions = response.data.transactions.sort((a, b) => {
+          return new Date(b.date) - new Date(a.date);
+        });
+  
+        setTransactions(sortedTransactions);
         console.log(response);
       })
       .catch((error) => {
@@ -102,7 +105,7 @@ function formatDate(dateString) {
       </div>
       {popupVisible && (
         <div className="fixed inset-0 flex items-center justify-center z-50 bg-black/[60%] w-full">
-          <AddTransactions onClose={closePopup} />
+          <AddTransactions onClose={closePopup} setTransactions={setTransactions}/>
         </div>
       )}
     </div>

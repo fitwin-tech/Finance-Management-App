@@ -66,9 +66,21 @@ export const AnaliticsProvider = ({ children }) => {
     return "";
   };
 
+  const updateCategoryList = (newCategoryList) => {
+    setCategoryList(newCategoryList);
+  };
+
   return (
     <AnaliticsContext.Provider
-      value={{ userDetails, loading, userData, formatNumber, category , categoryList}}
+      value={{
+        userDetails,
+        loading,
+        userData,
+        formatNumber,
+        category,
+        categoryList,
+        updateCategoryList,
+      }}
     >
       {children}
     </AnaliticsContext.Provider>

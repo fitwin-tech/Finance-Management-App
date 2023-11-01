@@ -1,16 +1,18 @@
-import React, { useState } from "react";
-import Transaction from "../Json/Transactions.json";
+import React, { useState, useEffect } from "react";
 import { useAnalitics } from "../Context/AnaliticsContext";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import { IoIosArrowUp } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
-// import axios from "axios";
-// import api from "../Api";
+import axios from "axios";
+import api from "../Api";
 
 export default function Transactions() {
   const { userData, formatNumber } = useAnalitics();
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
+  const [transactions, setTransactions] = useState([]);
+  const [selectedFilter, setSelectedFilter] = useState(1); // Initially select "Today"
+  const [isSelected, setIsSelected] = useState(false);
 
   // Helper function to format the date
   function formatDate(dateString) {
@@ -19,37 +21,60 @@ export default function Transactions() {
     return date.toLocaleDateString("en-US", options);
   }
 
+  useEffect(() => {
+    axios
+      .get(`${api.getTransactions}/${userData.id}`, {
+        headers: {
+          api_key: api.key,
+          authentication: api.authentication,
+        },
+      })
+      .then((response) => {
+        setTransactions(response.data.transactions);
+        console.log(response);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }, [userData.id]);
+
   // Create a dropdown JSON for date ranges
   const dropdown = [
     {
       id: 1,
-      name: "Today",
-      filterFunction: (item) => {
-        const today = new Date().toLocaleDateString();
-        return item.date === today;
-      },
+      name: "All",
+      filterFunction: (item) => true, // Show all transactions
     },
     {
       id: 2,
-      name: "Yesterday",
+      name: "Today",
       filterFunction: (item) => {
-        const yesterday = new Date();
-        yesterday.setDate(yesterday.getDate() - 1);
-        return item.date === yesterday.toLocaleDateString();
+        const today = new Date().toISOString().split("T")[0];
+        return item.date.startsWith(today);
       },
     },
     {
       id: 3,
+      name: "Yesterday",
+      filterFunction: (item) => {
+        const yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+        const yesterdayString = yesterday.toISOString().split("T")[0];
+        return item.date.startsWith(yesterdayString);
+      },
+    },
+    {
+      id: 4,
       name: "This Week",
       filterFunction: (item) => {
         const today = new Date();
         const startOfWeek = new Date(today);
         startOfWeek.setDate(today.getDate() - today.getDay());
-        return new Date(item.date) >= startOfWeek;
+        return formatDate(item.date) >= formatDate(startOfWeek);
       },
     },
     {
-      id: 4,
+      id: 5,
       name: "Last Week",
       filterFunction: (item) => {
         const today = new Date();
@@ -58,17 +83,21 @@ export default function Transactions() {
         const endOfWeek = new Date(today);
         endOfWeek.setDate(today.getDate() - today.getDay() - 1);
         return (
-          new Date(item.date) >= startOfWeek && new Date(item.date) <= endOfWeek
+          formatDate(item.date) >= formatDate(startOfWeek) &&
+          formatDate(item.date) <= formatDate(endOfWeek)
         );
       },
     },
   ];
 
-  const [filteredTransactions, setFilteredTransactions] = useState(Transaction);
+  const [filteredTransactions, setFilteredTransactions] =
+    useState(transactions);
 
-  const handleDropdownClick = (filterFunction) => {
+  const handleDropdownClick = (filterFunction, id) => {
     setIsOpen(false);
-    setFilteredTransactions(Transaction.filter(filterFunction));
+    setFilteredTransactions(transactions.filter(filterFunction));
+    setSelectedFilter(id);
+    setIsSelected(true);
   };
 
   return (
@@ -78,16 +107,16 @@ export default function Transactions() {
           <div className="w-full">
             <p className="font-bold">Transactions</p>
             <p className="text-subtitle text-black/[.70]">
-              View your all expenses and income you have done recently
+              View all your expenses and income you have done recently
             </p>
           </div>
-          <div className="w-[150px] flex justify-end items-cinter">
+          <div className="w-[150px] flex justify-end items-center">
             <div className="relative flex items-center">
               <p
                 className="text-subtitle capitalize cursor-pointer"
                 onClick={() => setIsOpen(!isOpen)}
               >
-                last 7 days
+                {dropdown.find((item) => item.id === selectedFilter).name}
               </p>
               <MdOutlineKeyboardArrowDown
                 className={`text-[1.3rem] hover:cursor-pointer inline ml-1 transform ${
@@ -100,8 +129,14 @@ export default function Transactions() {
                   {dropdown.map((item) => (
                     <li
                       key={item.id}
-                      className="capitalize cursor-pointer hover:bg-white_hover px-4 py-2 text-subtitle"
-                      onClick={() => handleDropdownClick(item.filterFunction)}
+                      className={`capitalize cursor-pointer hover:bg-white_hover px-4 py-2 text-subtitle ${
+                        item.id === selectedFilter
+                          ? "bg-primary text-white"
+                          : ""
+                      }`}
+                      onClick={() =>
+                        handleDropdownClick(item.filterFunction, item.id)
+                      }
                     >
                       {item.name}
                     </li>
@@ -112,38 +147,71 @@ export default function Transactions() {
           </div>
         </div>
         <div className="space-y-4">
-          {filteredTransactions.slice(0, 5).map((index) => (
-            <div
-              className="grid grid-cols-4 gap-4 text-subtitle text-black/[.70]"
-              key={index.id}
-            >
-              <div>
-                <p className="font-semibold text-black capitalize">
-                  {index.title}
-                </p>
-                <p>{formatDate(index.date)}</p>
-              </div>
-              <div className="flex space-x-1 items-center">
-                <p>{userData.currency}</p>
-                <p>{formatNumber(index.amount)}</p>
-              </div>
-              <div className="flex justify-end items-center capitalize">
-                <p>{index.category}</p>
-              </div>
-              <div className="flex justify-end capitalize items-center">
-                {index.is_income ? (
-                  <p className="text-green bg-green/[.15] px-5 py-1 rounded-sm font-semibold">
-                    income
-                  </p>
-                ) : (
-                  <p className="text-red bg-red/[.15] px-4 py-1 rounded-sm font-semibold">
-                    expense
-                  </p>
-                )}
-              </div>
-            </div>
-          ))}
+          {isSelected
+            ? filteredTransactions.slice(0, 5).map((index) => (
+                <div
+                  className="grid grid-cols-4 gap-4 text-subtitle text-black/[.70]"
+                  key={index.id}
+                >
+                  <div>
+                    <p className="font-semibold text-black capitalize">
+                      {index.title}
+                    </p>
+                    <p>{formatDate(index.date)}</p>
+                  </div>
+                  <div className="flex space-x-1 items-center">
+                    <p>{userData.currency}</p>
+                    <p>{formatNumber(index.amount.$numberDecimal)}</p>
+                  </div>
+                  <div className="flex justify-end items-center capitalize">
+                    <p>{index.category}</p>
+                  </div>
+                  <div className="flex justify-end capitalize items-center">
+                    {index.is_income ? (
+                      <p className="text-green bg-green/[.15] px-5 py-1 rounded-sm font-semibold">
+                        income
+                      </p>
+                    ) : (
+                      <p className="text-red bg-red/[.15] px-4 py-1 rounded-sm font-semibold">
+                        expense
+                      </p>
+                    )}
+                  </div>
+                </div>
+              ))
+            : transactions.slice(0, 5).map((index) => (
+                <div
+                  className="grid grid-cols-4 gap-4 text-subtitle text-black/[.70]"
+                  key={index.id}
+                >
+                  <div>
+                    <p className="font-semibold text-black capitalize">
+                      {index.title}
+                    </p>
+                    <p>{formatDate(index.date)}</p>
+                  </div>
+                  <div className="flex space-x-1 items-center">
+                    <p>{userData.currency}</p>
+                    <p>{formatNumber(index.amount.$numberDecimal)}</p>
+                  </div>
+                  <div className="flex justify-end items-center capitalize">
+                    <p>{index.category}</p>
+                  </div>
+                  <div className="flex justify-end capitalize items-center">
+                    {index.is_income ? (
+                      <p className="text-green bg-green/[.15] px-5 py-1 rounded-sm font-semibold">
+                        income
+                      </p>
+                    ) : (
+                      <p className="text-red bg-red/[.15] px-4 py-1 rounded-sm font-semibold">
+                        expense
+                      </p>
+                    )}
+                  </div>
+                </div>
+              ))}
         </div>
+
         <div className="flex items-center space-x-1 justify-end text-primary">
           <p
             className="cursor-pointer"
