@@ -3,9 +3,11 @@ import Header from "../Components/Header";
 import Banner from "../Assets/banner.jpg";
 import Analitics from "../Components/Analitics";
 import TransactionsMain from "../Components/TransactionsMain";
+import IncomeResources from "../Components/IncomeResources";
+import ExpenceResources from "../Components/ExpenceResources";
+import AddCategories from "../Components/AddCategories";
 
 export default function Transactions() {
-
   return (
     <div>
       <Header />
@@ -25,7 +27,11 @@ export default function Transactions() {
               <div className="w-[59.5%]">
                 <TransactionsMain />
               </div>
-              <div className="w-[39.2%]">{/* <Transactions /> */}</div>
+              <div className="w-[39.2%] space-y-4">
+                <AddCategories />
+                <IncomeResources />
+                <ExpenceResources />
+              </div>
             </div>
           </div>
         </div>

@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { useAnalitics } from "../../Context/AnaliticsContext";
 import api from "../../Api";
 import axios from "axios";
 
 export default function AddTransactions({ onClose }) {
-  const { userData } = useAnalitics();
+  const { userData , categoryList } = useAnalitics();
   const [isOpen, setIsOpen] = useState(false);
-  const [userDetails, setUserDetails] = useState({});
   const [categoryTitle, setCategoryTitle] = useState("Select your category");
   const [categoryId, setCategoryId] = useState("Select your category");
   const [isIncome, setIsIncome] = useState(false);
@@ -38,28 +37,6 @@ export default function AddTransactions({ onClose }) {
     }
   };
 
-  useEffect(() => {
-    console.log("isIncome:", isIncome); // Log the value of isIncome
-    // Rest of your code...
-  }, [isIncome]); // Add isIncome as a dependency
-
-  useEffect(() => {
-    axios
-      .get(`${api.category}/${userData.id}`, {
-        headers: {
-          api_key: api.key,
-          authantication: api.authantication,
-        },
-      })
-      .then((response) => {
-        setUserDetails(response.data.categories);
-        console.log(response);
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
-  }, [userData.id]);
-
   const handleTransaction = async (event) => {
     event.preventDefault();
     setIsLoading(true);
@@ -86,7 +63,7 @@ export default function AddTransactions({ onClose }) {
 
       console.log("Transaction response:", response);
     } catch (error) {
-      console.error("Login failed:", error);
+      console.error("adding failed:", error);
     } finally {
       setIsLoading(false);
       setSuccessMessege("Transaction Successfuly added")
@@ -161,7 +138,7 @@ export default function AddTransactions({ onClose }) {
               />
               {isOpen && (
                 <ul className="absolute top-10 w-[12rem] right-0 rounded shadow bg-input_bg z-10 bg-white">
-                  {userDetails.map((index) => (
+                  {categoryList.map((index) => (
                     <li
                       key={index.id}
                       className="capitalize cursor-pointer hover:bg-white_hover px-4 py-2"

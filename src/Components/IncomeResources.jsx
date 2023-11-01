@@ -1,30 +1,31 @@
 import React from "react";
-import Income from "../Json/income.json";
 import { useAnalitics } from "../Context/AnaliticsContext";
 
 export default function IncomeResources() {
-  const { userDetails, userData, formatNumber } = useAnalitics();
+  const { userDetails, userData, formatNumber, category } = useAnalitics();
+  const incomeCategories = category.filter((index) => index.is_income === true);
 
   return (
     <div className="border rounded-md p-4 space-y-4">
       <div>
         <h1 className="font-bold capitalize">Income Resources</h1>
       </div>
-      {Income.map((index) => (
+      {incomeCategories.map((index) => (
         <div key={index.id} className="pt-1">
           <div className="text-subtitle space-y-1">
             <div className="flex items-center">
               <p className="w-full capitalize">
-                {index.category_name} -{" "}
+                {index.title} -{" "}
                 {(
-                  (index.amount / userDetails.thisMonthIncome?.$numberDecimal) *
+                  (index.amount.$numberDecimal /
+                    userDetails.thisMonthIncome?.$numberDecimal) *
                   100
                 ).toFixed(1)}
                 %
               </p>
               <p>
                 <span className="font-semibold">{userData.currency}</span>
-                {formatNumber(index.amount)}
+                {formatNumber(index.amount.$numberDecimal)}
               </p>
             </div>
             <div className="w-full pt-1">
@@ -32,7 +33,7 @@ export default function IncomeResources() {
                 <div
                   style={{
                     width: `${
-                      (index.amount /
+                      (index.amount.$numberDecimal /
                         userDetails.thisMonthIncome?.$numberDecimal) *
                       100
                     }%`,

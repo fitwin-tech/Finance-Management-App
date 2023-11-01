@@ -112,7 +112,7 @@ export default function Transactions() {
           </div>
         </div>
         <div className="space-y-4">
-          {filteredTransactions.map((index) => (
+          {filteredTransactions.slice(0, 5).map((index) => (
             <div
               className="grid grid-cols-4 gap-4 text-subtitle text-black/[.70]"
               key={index.id}

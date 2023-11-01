@@ -5,9 +5,8 @@ import { useAnalitics } from "../Context/AnaliticsContext";
 export default function Analitics() {
   const { userDetails, loading, userData, formatNumber } = useAnalitics();
 
-  // Define a number formatting function
   const formatNumberWithOneDecimal = (number) => {
-    if (typeof number !== "number" || isNaN(number)) {
+    if (typeof number !== "number" || isNaN(number) || !isFinite(number)) {
       return 0;
     }
     return number.toFixed(1);
