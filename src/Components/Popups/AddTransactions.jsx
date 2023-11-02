@@ -5,7 +5,8 @@ import api from "../../Api";
 import axios from "axios";
 
 export default function AddTransactions({ onClose, setTransactions }) {
-  const { userData, categoryList } = useAnalitics();
+  const { userData, categoryList} =
+    useAnalitics();
   const [isOpen, setIsOpen] = useState(false);
   const [categoryTitle, setCategoryTitle] = useState("Select your category");
   const [categoryId, setCategoryId] = useState("Select your category");

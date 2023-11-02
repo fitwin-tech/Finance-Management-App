@@ -1,9 +1,30 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { BsArrowUpShort } from "react-icons/bs";
 import { useAnalitics } from "../Context/AnaliticsContext";
+import api from "../Api";
+import axios from "axios";
 
 export default function Analitics() {
-  const { userDetails, loading, userData, formatNumber } = useAnalitics();
+  const { loading, userData, formatNumber } = useAnalitics();
+  const [userDetails, setUserDetails] = useState({});
+
+  useEffect(() => {
+    axios
+    .get(`${api.userdetails}/${userData.email}`, {
+        headers: {
+          api_key: api.key,
+          authantication: api.authantication,
+        },
+      })
+      .then((response) => {
+        setUserDetails(response.data.results);
+        console.log(response);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+        //setLoading(true);
+      });
+  }, [userData.email]);
 
   const formatNumberWithOneDecimal = (number) => {
     if (typeof number !== "number" || isNaN(number) || !isFinite(number)) {
