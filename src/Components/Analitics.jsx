@@ -119,7 +119,7 @@ export default function Analitics() {
       {loading ? (
         "loading"
       ) : (
-        <div className="grid grid-cols-5 gap-4">
+        <div className="grid lg:grid-cols-5 md:grid-cols-3 sm:grid-cols-2 gap-4">
           {expenses.map((item) => {
             return (
               <div

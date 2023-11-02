@@ -65,18 +65,36 @@ export default function AddCategories() {
 
       <p className="text-green">{successMessege}</p>
 
-      <div className="w-full capitalize grid grid-cols-4 gap-4">
-        {categoryList.map((index) => (
-          <div
-            className={`p-2 px-4 rounded-sm text-center text-subtitle ${
-              index.is_income
-                ? "text-green bg-green/[.15]"
-                : "text-red bg-red/[.15]"
-            }`}
-          >
-            <p>{index.title}</p>
-          </div>
-        ))}
+      <div className="sm:hidden md:block lg:block">
+        <div className="w-full capitalize grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {categoryList.map((index) => (
+            <div
+              className={`p-2 px-4 rounded-sm text-center text-subtitle ${
+                index.is_income
+                  ? "text-green bg-green/[.15]"
+                  : "text-red bg-red/[.15]"
+              }`}
+            >
+              <p className="w-full">{index.title}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="sm:block md:hidden lg:hidden">
+        <div className="w-full capitalize grid grid-cols-3 gap-4">
+          {categoryList.map((index) => (
+            <div
+              className={`p-2 px-4 rounded-sm text-center text-subtitle ${
+                index.is_income
+                  ? "text-green bg-green/[.15]"
+                  : "text-red bg-red/[.15]"
+              }`}
+            >
+              <p className="w-full">{index.title}</p>
+            </div>
+          ))}
+        </div>
       </div>
 
       <div className="capitalize text-subtitle flex space-x-4">

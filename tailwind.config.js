@@ -11,6 +11,14 @@ module.exports = {
         default: "0.25rem",
         header_button: "2rem",
       },
+      screens: {
+        sm: "320px",
+        md: "600px",
+        lg: "1024px",
+        xl: "1300px",
+        xxl: "1700px",
+        xxxl : "1800px",
+      },
       colors: {
         primary: "#4094F7",
         secondary: "#474747",

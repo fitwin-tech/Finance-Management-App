@@ -15,7 +15,7 @@ export default function Home() {
       <div>
         <Header />
         <div className="flex justify-center py-4">
-          <p className="max-w-primary w-full px-20 capitalize text-primarysize">
+          <p className="max-w-primary w-full px-4 capitalize text-primarysize">
             <strong>Hi {userData.firstname} - </strong>
             <span className="text-black/[.60] font-medium">
               Here is whats happaning with your finanse
@@ -23,16 +23,20 @@ export default function Home() {
           </p>
         </div>
         <div className="flex justify-center">
-          <div className="max-w-primary w-full px-20 space-y-4">
+          <div className="max-w-primary w-full px-4 space-y-4">
             <Analitics />
             <div className="flex space-x-4">
-              <div className="w-[59.5%]">
+              <div className="w-full">
                 <Transactions />
               </div>
-              <div className="w-[39.2%] space-y-4">
+              <div className="w-[40%] space-y-4 sm:hidden md:block lg:block">
                 <IncomeResources />
                 <ExpenceResources />
               </div>
+            </div>
+            <div className="w-full space-y-4 sm:block md:hidden lg:hidden">
+              <IncomeResources />
+              <ExpenceResources />
             </div>
           </div>
         </div>

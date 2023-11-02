@@ -66,7 +66,7 @@ function formatDate(dateString) {
             </button>
           </div>
         </div>
-        <div className="space-y-4">
+        <div className="space-y-4 overflow-y-auto h-[400px] scrollbar-hidden">
           {transactions.map((index) => (
             <div
               className="grid grid-cols-4 gap-4 text-subtitle text-black/[.70]"
