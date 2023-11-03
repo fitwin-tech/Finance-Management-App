@@ -5,6 +5,7 @@ import Transactions from "../Components/Transactions";
 import IncomeResources from "../Components/IncomeResources";
 import ExpenceResources from "../Components/ExpenceResources";
 import { AnaliticsProvider } from "../Context/AnaliticsContext";
+import Chart from "../Components/Chart";
 
 export default function Home() {
   const userDataString = localStorage.getItem("userData");
@@ -26,7 +27,8 @@ export default function Home() {
           <div className="max-w-primary w-full px-4 space-y-4">
             <Analitics />
             <div className="flex space-x-4">
-              <div className="w-full">
+              <div className="w-full space-y-4">
+                <Chart/>
                 <Transactions />
               </div>
               <div className="w-[40%] space-y-4 sm:hidden md:block lg:block">

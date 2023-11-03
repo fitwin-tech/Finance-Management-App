@@ -1,0 +1,74 @@
+[
+  {
+    "id": 1,
+    "month": "january",
+    "expence": 145876.56,
+    "income": 118540
+  },
+  {
+    "id": 2,
+    "month": "February",
+    "expence": 250876.56,
+    "income": 113000
+  },
+  {
+    "id": 3,
+    "month": "March",
+    "expence": 115876.56,
+    "income": 128540
+  },
+  {
+    "id": 4,
+    "month": "April",
+    "expence": 191876.56,
+    "income": 118540
+  },
+  {
+    "id": 5,
+    "month": "May",
+    "expence": 125876.56,
+    "income": 120540
+  },
+  {
+    "id": 6,
+    "month": "June",
+    "expence": 130876.56,
+    "income": 123540
+  },
+  {
+    "id": 7,
+    "month": "July",
+    "expence": 90876.56,
+    "income": 148540
+  },
+  {
+    "id": 8,
+    "month": "Augest",
+    "expence": 225876.56,
+    "income": 208540
+  },
+  {
+    "id": 9,
+    "month": "September",
+    "expence": 250876.56,
+    "income": 308540
+  },
+  {
+    "id": 10,
+    "month": "Octomber",
+    "expence": 25876.56,
+    "income": 108540
+  },
+  {
+    "id": 11,
+    "month": "November",
+    "expence": 70876.56,
+    "income": 118540
+  },
+  {
+    "id": 12,
+    "month": "December",
+    "expence": 125876.56,
+    "income": 108540
+  }
+]

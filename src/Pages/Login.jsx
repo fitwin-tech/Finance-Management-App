@@ -72,7 +72,7 @@ export default function Login() {
         <BiArrowBack className="text-header" />
         <p> Go Back</p>
       </div>
-      <div className="w-full max-w-login border rounded-lg p-4 py-8">
+      <div className="w-full max-w-login lg:border rounded-lg p-4 py-8 overflow-y-hidden">
         <div className="space-y-4">
           <div className="flex justify-center">
             <img src={Logo} alt="logo" className="w-[12rem]" />
