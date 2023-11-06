@@ -1,13 +1,12 @@
 import React, { useState } from "react";
-import { IoMdArrowDropdown } from "react-icons/io";
 import { useAnalitics } from "../../Context/AnaliticsContext";
+import TextField from "@mui/material/TextField";
+import Autocomplete from "@mui/material/Autocomplete";
 import api from "../../Api";
 import axios from "axios";
 
 export default function AddTransactions({ onClose, setTransactions }) {
-  const { userData, categoryList} =
-    useAnalitics();
-  const [isOpen, setIsOpen] = useState(false);
+  const { userData, categoryList } = useAnalitics();
   const [categoryTitle, setCategoryTitle] = useState("Select your category");
   const [categoryId, setCategoryId] = useState("Select your category");
   const [isIncome, setIsIncome] = useState(false);
@@ -21,7 +20,6 @@ export default function AddTransactions({ onClose, setTransactions }) {
   const handleCategoryClick = (title, _id) => {
     setCategoryTitle(title);
     setCategoryId(_id);
-    setIsOpen(false); // Close the dropdown
   };
 
   const handleIncomeChange = () => {
@@ -127,34 +125,43 @@ export default function AddTransactions({ onClose, setTransactions }) {
         </div>
         <div className="w-full space-y-2">
           <p className="font-semibold">Category</p>
-          <div
-            onClick={() => setIsOpen(!isOpen)}
-            className="border outline-none p-2 px-4 w-full rounded-md flex cursor-pointer"
-          >
-            <p className="w-full">{categoryTitle}</p>
-            <div className="relative">
-              <IoMdArrowDropdown
-                className={`text-[1.3rem] hover:cursor-pointer inline ml-1 transform ${
-                  isOpen ? "rotate-180" : "rotate-0"
-                } transition-transform duration-300 ease-in-out`}
-              />
-              {isOpen && (
-                <ul className="absolute top-10 w-[12rem] right-0 rounded shadow bg-input_bg z-10 bg-white">
-                  {categoryList.map((index) => (
-                    <li
-                      key={index.id}
-                      className="capitalize cursor-pointer hover:bg-white_hover px-4 py-2"
-                      onClick={() =>
-                        handleCategoryClick(index.title, index._id)
-                      }
-                    >
-                      {index.title}
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
-          </div>
+          <Autocomplete
+            className="border-none"
+            id="clear-on-escape"
+            clearOnEscape
+            sx={{
+              color: "success.main",
+              "& .MuiAutocomplete-inputRoot": {
+                border: "none", // Remove the border
+              },
+              "& .MuiInputLabel-root": {
+                fontSize: "14px", // Set label font size to 14px
+              },
+              "& .MuiAutocomplete-input": {
+                fontSize: "14px", // Set text size to 14px
+                border: "1px solid white", // Set the default border color to white
+                height: "5px", // Set input height to 5px
+                "&:hover": {
+                  border: "1px solid white", // Change border to black on hover
+                },
+                "& .Mui-focused": {
+                  border: "1px solid white", // Change border to blue when focused
+                },
+              },
+            }}
+            options={categoryList.map((category) => ({
+              label: category.title,
+              value: category._id,
+            }))}
+            renderInput={(params) => (
+              <TextField {...params} placeholder="Enter your category" />
+            )}
+            onChange={(event, newValue) => {
+              if (newValue) {
+                handleCategoryClick(newValue.label, newValue.value);
+              }
+            }}
+          />
         </div>
       </div>
       <div className="space-x-2 flex justify-end">

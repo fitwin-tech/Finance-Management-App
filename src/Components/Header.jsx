@@ -40,7 +40,7 @@ export default function Header() {
   ];
 
   return (
-    <div className="p-3 flex items-center border-b w-full">
+    <div className="p-3 flex items-center border-b w-full bg-white">
       <div className="flex justify-start space-x-4 w-full">
         <img
           onClick={() => navigate("/")}
@@ -76,7 +76,7 @@ export default function Header() {
           />
           <p
             onClick={() => setIsOpen(!isOpen)}
-            className="cursor-pointer sm:hidden lg:flex"
+            className="cursor-pointer sm:hidden lg:flex capitalize"
           >
             {userData.firstname} {userData.lastname}
           </p>

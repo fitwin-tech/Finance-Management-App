@@ -16,6 +16,7 @@ import Login from "./Pages/Login";
 import Transactions from "./Pages/Transactions";
 import Categories from "./Pages/Categories";
 import Settings from "./Pages/Settings";
+import Signup from "./Pages/Signup";
 
 export default function App() {
   // Initialize userData to an empty object to avoid undefined errors
@@ -55,6 +56,7 @@ export default function App() {
     <Router>
       <Routes>
         <Route exact path="/login" element={<Login />} />
+        <Route exact path="/signup" element={<Signup />} />
         <Route exact path="*" element={<Error404 />} />
         <Route element={<ProtectedRoute />}>
           <Route exact path="/" element={<Home />} />

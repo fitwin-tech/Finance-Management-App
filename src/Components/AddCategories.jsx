@@ -9,6 +9,7 @@ export default function AddCategories() {
   const { userData, categoryList, updateCategoryList } = useAnalitics();
   const [isLoading, setIsLoading] = useState(false);
   const [successMessege, setSuccessMessege] = useState("");
+  const [errorMessege, setErrorMessege] = useState("");
   const [title, setTitle] = useState();
 
   const handleIncomeChange = () => {
@@ -49,11 +50,21 @@ export default function AddCategories() {
       updateCategoryList([...categoryList, response.data]); // Assuming response.data contains the new category
 
       console.log("Category response:", response);
+      const data = response.data;
+      if (data) {
+        setSuccessMessege("Category Successfuly added");
+        setErrorMessege("");
+      } else {
+        console.error("Login failed with access token");
+        setErrorMessege("Something Went Wrong");
+        setSuccessMessege("");
+      }
     } catch (error) {
       console.error("Category failed:", error);
+      setErrorMessege("Something Went Wrong");
+      setSuccessMessege("");
     } finally {
       setIsLoading(false);
-      setSuccessMessege("Category Successfuly added");
     }
   };
 
@@ -64,9 +75,10 @@ export default function AddCategories() {
       </div>
 
       <p className="text-green">{successMessege}</p>
+      <p className="text-red">{errorMessege}</p>
 
       <div className="sm:hidden md:block lg:block">
-        <div className="w-full capitalize grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="w-full capitalize md:grid-cols-2 lg:grid-cols-3 gap-4 grid">
           {categoryList.map((index) => (
             <div
               className={`p-2 px-4 rounded-sm text-center text-subtitle ${
@@ -82,7 +94,7 @@ export default function AddCategories() {
       </div>
 
       <div className="sm:block md:hidden lg:hidden">
-        <div className="w-full capitalize grid grid-cols-3 gap-4">
+        <div className="w-full capitalize grid-cols-3 gap-4 sm:hidden sm:hidden lg:grid">
           {categoryList.map((index) => (
             <div
               className={`p-2 px-4 rounded-sm text-center text-subtitle ${
@@ -104,7 +116,7 @@ export default function AddCategories() {
             checked={isIncome}
             onChange={handleIncomeChange}
           />
-          <p>income</p>
+          <p className="cursor-pointer" onClick={handleIncomeChange}>income</p>
         </div>
         <div className="flex items-center space-x-2">
           <input
@@ -112,7 +124,7 @@ export default function AddCategories() {
             checked={isExpence}
             onChange={handleExpenceChange}
           />
-          <p>expence</p>
+          <p className="cursor-pointer" onClick={handleExpenceChange}>expence</p>
         </div>
       </div>
 

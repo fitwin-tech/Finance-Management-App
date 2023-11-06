@@ -5,11 +5,15 @@ import Logo from "../Assets/logo-with-text.png";
 import axios from "axios";
 import api from "../Api";
 
-export default function Login() {
+export default function Signup() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessege, setErrorMessege] = useState("");
   const [email, setEmail] = useState("");
+  const [firstname, setFirstName] = useState("");
+  const [lastname, setLastName] = useState("");
+  const [username, setUserName] = useState("");
+  const [currency, setCurrency] = useState("");
   const [password, setPassword] = useState("");
   const userDataString = localStorage.getItem("userData");
   const userData = userDataString ? JSON.parse(userDataString) : {};
@@ -21,15 +25,18 @@ export default function Login() {
     }
   }, [Token, navigate]);
 
-  const handleLogin = async (event) => {
+  const handleSignin = async (event) => {
     event.preventDefault();
     setIsLoading(true);
     console.log("handleLogin function called");
-    console.log(email, password);
     try {
       const response = await axios.post(
-        api.login,
+        api.signup,
         {
+          firstname,
+          lastname,
+          username,
+          currency,
           email,
           password,
         },
@@ -52,12 +59,12 @@ export default function Login() {
         localStorage.setItem("userData", JSON.stringify(data));
         navigate("/");
       } else {
-        console.error("Login failed with access token");
-        setErrorMessege("Username or password incorrect");
+        console.error("Signup failed with access token");
+        setErrorMessege("Username already exists");
       }
     } catch (error) {
       console.error("Login failed:", error);
-      setErrorMessege("Username or password incorrect");
+      setErrorMessege("Username already exists");
     } finally {
       setIsLoading(false);
     }
@@ -77,8 +84,50 @@ export default function Login() {
           <div className="flex justify-center">
             <img src={Logo} alt="logo" className="w-[12rem]" />
           </div>
-          <p className="text-title font-semibold text-center">Log in</p>
+          <p className="text-title font-semibold text-center">SignUp</p>
           <div className="space-y-4">
+            <div className="flex items-center space-x-2">
+              <div className="w-full space-y-2">
+                <p>First Name</p>
+                <input
+                  type="text"
+                  placeholder="First Name"
+                  className="border border-black/[.50] rounded-default p-2 w-full outline-none"
+                  onChange={(e) => setFirstName(e.target.value)}
+                  value={firstname}
+                />
+              </div>
+              <div className="w-full space-y-2">
+                <p>Last Name</p>
+                <input
+                  type="text"
+                  placeholder="Last Name"
+                  className="border border-black/[.50] rounded-default p-2 w-full outline-none"
+                  onChange={(e) => setLastName(e.target.value)}
+                  value={lastname}
+                />
+              </div>
+            </div>
+            <div className="w-full space-y-2">
+              <p>UserName</p>
+              <input
+                type="text"
+                placeholder="Enter your username"
+                className="border border-black/[.50] rounded-default p-2 w-full outline-none"
+                onChange={(e) => setUserName(e.target.value)}
+                value={username}
+              />
+            </div>
+            <div className="w-full space-y-2">
+              <p>Currency</p>
+              <input
+                type="text"
+                placeholder="Enter your currency"
+                className="border border-black/[.50] rounded-default p-2 w-full outline-none"
+                onChange={(e) => setCurrency(e.target.value)}
+                value={currency}
+              />
+            </div>
             <div className="w-full space-y-2">
               <p>Email Address</p>
               <input
@@ -99,27 +148,43 @@ export default function Login() {
                 value={password}
                 onKeyUp={(e) => {
                   if (e.key === "Enter") {
-                    handleLogin(e);
+                    handleSignin(e);
                   }
                 }}
               />
             </div>
-            <div>{errorMessege ? <p className="text-primarysize text-red">{errorMessege}</p> : ""}</div>
+            <div>
+              {errorMessege ? (
+                <p className="text-primarysize text-red">{errorMessege}</p>
+              ) : (
+                ""
+              )}
+            </div>
             <div className="flex justify-end">
-              <p className="cursor-pointer hover:text-blue-500" >Forgot Password?</p>
+              <p
+                className="cursor-pointer hover:text-blue-500"
+                onClick={() => navigate("/forgot-password")}
+              >
+                Forgot Password?
+              </p>
             </div>
             <div>
               <button
-                onClick={handleLogin}
+                onClick={handleSignin}
                 disabled={isLoading}
                 className="bg-primary hover:bg-button_hover text-white w-full p-3 rounded-default text-subtitle3"
               >
-                {isLoading ? "Loading..." : "Login"}
+                {isLoading ? "Loading..." : "SignUp"}
               </button>
             </div>
             <div className="flex space-x-1 items-center justify-center">
-              <p className="text-black/[.60]">Don't have an account? </p>
-              <p onClick={() => navigate("/signup")} className="text-blue-500 cursor-pointer">Register</p>
+              <p className="text-black/[.60]">Have an account? </p>
+              <p
+                onClick={() => navigate("/login")}
+                className="text-blue-500 cursor-pointer"
+              >
+                Log in
+              </p>
             </div>
           </div>
         </div>
