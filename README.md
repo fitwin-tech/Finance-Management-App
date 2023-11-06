@@ -1,70 +1,176 @@
-# Getting Started with Create React App
+# Finance Management App
+This is a Software as a Service (SaaS) finance management application that enables users to manage their finances efficiently. The app allows users to add, categorize, and analyze transactions, income, and expenses. The primary goal of this application is to provide users with tools for tracking and optimizing their financial activities.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## How to review the application
+You can easily create an account on the application and review the account by visiting this URL https://finance.naveenportfolio.site/signup
 
-## Available Scripts
+## Back-End Code
+https://github.com/naveenfullstack/portfolios-backend/tree/live/routes/finance
 
-In the project directory, you can run:
+## Figma Design and Prototype
+https://www.figma.com/proto/gnkCJGDmVOEc9rsd403bgh/Finance-Management-App?type=design&node-id=1-489&t=YVNhNRUsFHqnfhs2-0&scaling=scale-down-width&page-id=0%3A1&starting-point-node-id=1%3A489&hide-ui=1
 
-### `npm start`
+## Technologies Used
+- React.js
+- Express.js
+- MongoDB
+- JWT
+- node-cron ( Auto Update Data )
+- Firebase Storage
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Targeted Features 
+- View transactions analytics
+- add transactions
+- add categories
+- add transactions as income or expenses
+- manage analytics based on transactions
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Dashboard 
+![](/src/Assets/2023-11-06_153745.png)
 
-### `npm test`
+### How Analytics Auto Reset works ( Backend Code )
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+``` javascript
+const express = require("express");
+const router = express.Router();
+const cron = require("node-cron");
+const User = require("../../../models/finance/user");
 
-### `npm run build`
+// Schedule a task to run every day at 7:55 PM
+cron.schedule("59 23 * * *", async () => {
+  // Find and update the user records as needed
+  const users = await User.find({}); // Get all users
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+  for (const user of users) {
+    const todayExpenses = 0;
+    const yesterdayExpenses = user.todayExpenses; // Set it to the previous value of todayExpenses
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+    // Update the user record
+    await User.updateOne(
+      { _id: user._id },
+      {
+        $set: {
+          todayExpenses,
+          yesterdayExpenses,
+        },
+      }
+    );
+  }
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+  console.log("Daily update completed at 11:59 PM");
+});
 
-### `npm run eject`
+// Schedule a task to run every Sunday at 11:59 PM
+cron.schedule("59 23 * * 0", async () => {
+  // 0 represents Sunday
+  // Find and update the user records as needed
+  const users = await User.find({}); // Get all users
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+  for (const user of users) {
+    const thisWeekExpenses = 0;
+    const lastWeekExpenses = user.thisWeekExpenses; // Set it to the previous value of thisWeekExpenses
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+    // Update the user record
+    await User.updateOne(
+      { _id: user._id },
+      {
+        $set: {
+          thisWeekExpenses,
+          lastWeekExpenses,
+        },
+      }
+    );
+  }
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+  console.log("Weekly update completed every Sunday at 11:59 PM");
+});
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+// Schedule a task to run every Sunday at 11:59 PM to set this Week Income
+cron.schedule("59 23 * * 0", async () => {
+  // 0 represents Sunday
+  // Find and update the user records as needed
+  const users = await User.find({}); // Get all users
 
-## Learn More
+  for (const user of users) {
+    const thisWeekIncome = 0;
+    const lastWeekIncome = user.thisWeekIncome; // Set it to the previous value of thisWeekIncome
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+    // Update the user record
+    await User.updateOne(
+      { _id: user._id },
+      {
+        $set: {
+          thisWeekIncome,
+          lastWeekIncome,
+        },
+      }
+    );
+  }
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+  console.log("Weekly income update completed every Sunday at 11:59 PM");
+});
 
-### Code Splitting
+// Schedule a task to run every last day of the month at 11:59 PM
+cron.schedule("59 23 28-31 * *", async () => {
+  // Find and update the user records as needed
+  const users = await User.find({}); // Get all users
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+  for (const user of users) {
+    const thisMonthExpenses = 0;
+    const lastMonthExpenses = user.thisMonthExpenses; // Set it to the previous value of thisMonthExpenses
 
-### Analyzing the Bundle Size
+    // Update the user record
+    await User.updateOne(
+      { _id: user._id },
+      {
+        $set: {
+          thisMonthExpenses,
+          lastMonthExpenses,
+        },
+      }
+    );
+  }
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+  console.log(
+    "Monthly update completed on the last day of the month at 11:59 PM"
+  );
+});
 
-### Making a Progressive Web App
+// Schedule a task to run every last day of the month at 11:59 PM to update monthly income
+cron.schedule("59 23 28-31 * *", async () => {
+  // Find and update the user records as needed
+  const users = await User.find({}); // Get all users
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+  for (const user of users) {
+    const thisMonthIncome = 0;
+    const lastMonthIncome = user.thisMonthIncome; // Set it to the previous value of this Month Income
 
-### Advanced Configuration
+    // Update the user record
+    await User.updateOne(
+      { _id: user._id },
+      {
+        $set: {
+          thisMonthIncome,
+          lastMonthIncome,
+        },
+      }
+    );
+  }
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+  console.log(
+    "Monthly Income update completed on the last day of the month at 11:59 PM"
+  );
+});
 
-### Deployment
+module.exports = router;
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## income Reasoserses and Expense Reasoserses
+only show categories that have expense or income amount more 0 that prevents showing all categories that the user added when there are no transactions
 
-### `npm run build` fails to minify
+## Transactions
+![](/src/Assets/2023-11-06_153902.png)
+![](/src/Assets/popup.png)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Settings
+![](/src/Assets/settings.png)
