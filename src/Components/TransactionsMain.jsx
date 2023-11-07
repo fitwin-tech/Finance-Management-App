@@ -36,23 +36,23 @@ export default function TransactionsMain() {
     setEndDate(endDate);
   };
 
-  const handleClickOutside = (event) => {
-    if (popupRef.current && !popupRef.current.contains(event.target)) {
-      closePopup();
-    }
-    if (popupRef.current && !popupRef.current.contains(event.target)) {
-      closeDatePopup();
-    }
-  };
+  // const handleClickOutside = (event) => {
+  //   if (popupRef.current && !popupRef.current.contains(event.target)) {
+  //     closePopup();
+  //   }
+  //   if (popupRef.current && !popupRef.current.contains(event.target)) {
+  //     closeDatePopup();
+  //   }
+  // };
 
-  // Listen for clicks outside of the popups
-  React.useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-    // eslint-disable-next-line
-  }, []);
+  // // Listen for clicks outside of the popups
+  // React.useEffect(() => {
+  //   document.addEventListener("mousedown", handleClickOutside);
+  //   return () => {
+  //     document.removeEventListener("mousedown", handleClickOutside);
+  //   };
+  //   // eslint-disable-next-line
+  // }, []);
 
   useEffect(() => {
     axios
@@ -107,7 +107,7 @@ export default function TransactionsMain() {
             </button>
           </div>
         </div>
-        <div className="flex items-center space-x-4">
+        {/* <div className="flex items-center space-x-4">
           <div className="bg-white w-fit rounded-default">
             <div onClick={openDatePopup} className="flex items-center space-x-2 border p-2 rounded-md w-fit">
               <FaRegCalendarAlt className="text-subtitle text-black/[.60]" />
@@ -128,7 +128,7 @@ export default function TransactionsMain() {
               ) : null}
             </div>
           </div>
-        </div>
+        </div> */}
         {transactions.length === 0 ? (
           <div>
             <div className="flex justify-center">
