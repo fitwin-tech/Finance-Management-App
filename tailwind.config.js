@@ -25,7 +25,8 @@ module.exports = {
         button_hover: "#2267CF",
         white_hover : "#EEEEEE",
         red : "#D31C1C",
-        green : "#318015"
+        green : "#318015",
+        mobilebuttonactive : "#00E0FF",
       },
       fontSize: {
         primarysize: '1rem',

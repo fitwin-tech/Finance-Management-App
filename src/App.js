@@ -17,6 +17,7 @@ import Transactions from "./Pages/Transactions";
 import Categories from "./Pages/Categories";
 import Settings from "./Pages/Settings";
 import Signup from "./Pages/Signup";
+import AddNewTransactionPage from "./Pages/AddNewTransactionPage";
 
 export default function App() {
   // Initialize userData to an empty object to avoid undefined errors
@@ -63,6 +64,7 @@ export default function App() {
           <Route exact path="/transactions" element={<Transactions/>} />
           <Route exact path="/categories" element={<Categories/>} />
           <Route exact path="/settings" element={<Settings/>} />
+          <Route exact path="/addnew" element={<AddNewTransactionPage/>} />
         </Route>
       </Routes>
     </Router>

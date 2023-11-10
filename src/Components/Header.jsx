@@ -63,14 +63,14 @@ export default function Header() {
           ))}
         </div>
       </div>
-      <div className="flex justify-end w-full items-center space-x-4">
-        <p className="font-bold text-primarysize sm:hidden lg:flex">
+      <div className="flex justify-end w-full items-center md:space-x-4 sm:space-x-0">
+        <p className="font-bold md:text-primarysize flex sm:text-[0.8rem]">
           Balance: {userData.currency}
           {formatNumber(userDetails.balance?.$numberDecimal)}
         </p>
         <div className="flex items-center space-x-4 text-primarysize">
           <img
-            className="rounded-full w-[3rem]"
+            className="rounded-full w-[3rem] sm:hidden lg:flex"
             src="https://www.shareicon.net/data/512x512/2016/09/15/829452_user_512x512.png"
             alt="profile"
           />
@@ -80,7 +80,7 @@ export default function Header() {
           >
             {userData.firstname} {userData.lastname}
           </p>
-          <div className="relative">
+          <div className="relative sm:hidden">
             <IoMdArrowDropdown
               className={`text-[1.3rem] hover:cursor-pointer inline ml-1 transform ${
                 isOpen ? "rotate-180" : "rotate-0"

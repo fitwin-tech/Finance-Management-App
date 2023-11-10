@@ -6,6 +6,7 @@ import IncomeResources from "../Components/IncomeResources";
 import ExpenceResources from "../Components/ExpenceResources";
 import { AnaliticsProvider } from "../Context/AnaliticsContext";
 import Chart from "../Components/Chart";
+import MobileAppBar from "../Components/MobileAppBar";
 
 export default function Home() {
   const userDataString = localStorage.getItem("userData");
@@ -42,6 +43,7 @@ export default function Home() {
             </div>
           </div>
         </div>
+        <MobileAppBar/>
       </div>
     </AnaliticsProvider>
   );

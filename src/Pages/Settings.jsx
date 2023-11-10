@@ -2,6 +2,7 @@ import React from "react";
 import Header from "../Components/Header";
 import Banner from "../Assets/banner.jpg";
 import { AnaliticsProvider } from "../Context/AnaliticsContext";
+import MobileAppBar from "../Components/MobileAppBar";
 
 export default function Settings() {
   const userDataString = localStorage.getItem("userData");
@@ -12,12 +13,16 @@ export default function Settings() {
       <div>
         <Header />
         <div
-          className="bg-cover bg-center h-72 flex items-center justify-center" // You can adjust the height and other classes as needed
+          className="bg-cover bg-center h-72 sm:hidden md:hidden lg:flex items-center justify-center" // You can adjust the height and other classes as needed
           style={{ backgroundImage: `url(${Banner})` }}
         >
           <div className="max-w-primary w-full">
             <h1 className="text-white text-4xl font-bold px-20 ">Settings</h1>
           </div>
+        </div>
+        <div className="p-4 text-2xl font-bold space-y-2 sm:block md:block lg:hidden">
+          <h1>Settings</h1>
+          <hr />
         </div>
         <div className="flex justify-center">
           <div className="max-w-primary w-full px-20">
@@ -148,6 +153,7 @@ export default function Settings() {
             </div>
           </div>
         </div>
+        <MobileAppBar />
       </div>
     </AnaliticsProvider>
   );

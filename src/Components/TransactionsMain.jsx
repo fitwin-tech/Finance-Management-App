@@ -1,10 +1,9 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useAnalitics } from "../Context/AnaliticsContext";
 import AddTransactions from "../Components/Popups/AddTransactions";
-import { FaRegCalendarAlt } from "react-icons/fa";
+import { BsDot } from "react-icons/bs";
 import api from "../Api";
 import axios from "axios";
-import DateRangePopup from "./Popups/DateRangePick";
 
 export default function TransactionsMain() {
   const { userData, formatNumber } = useAnalitics();
@@ -12,8 +11,6 @@ export default function TransactionsMain() {
   const [transactions, setTransactions] = useState([]);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
-  const [datePopupVisible, setDatePopupVisible] = useState(false);
-  const popupRef = useRef();
 
   const openPopup = () => {
     setPopupVisible(true);
@@ -22,37 +19,6 @@ export default function TransactionsMain() {
   const closePopup = () => {
     setPopupVisible(false);
   };
-
-  const openDatePopup = () => {
-    setDatePopupVisible(true);
-  };
-
-  const closeDatePopup = () => {
-    setDatePopupVisible(false);
-  };
-
-  const handleDateSelect = (startDate, endDate) => {
-    setStartDate(startDate);
-    setEndDate(endDate);
-  };
-
-  // const handleClickOutside = (event) => {
-  //   if (popupRef.current && !popupRef.current.contains(event.target)) {
-  //     closePopup();
-  //   }
-  //   if (popupRef.current && !popupRef.current.contains(event.target)) {
-  //     closeDatePopup();
-  //   }
-  // };
-
-  // // Listen for clicks outside of the popups
-  // React.useEffect(() => {
-  //   document.addEventListener("mousedown", handleClickOutside);
-  //   return () => {
-  //     document.removeEventListener("mousedown", handleClickOutside);
-  //   };
-  //   // eslint-disable-next-line
-  // }, []);
 
   useEffect(() => {
     axios
@@ -107,28 +73,6 @@ export default function TransactionsMain() {
             </button>
           </div>
         </div>
-        {/* <div className="flex items-center space-x-4">
-          <div className="bg-white w-fit rounded-default">
-            <div onClick={openDatePopup} className="flex items-center space-x-2 border p-2 rounded-md w-fit">
-              <FaRegCalendarAlt className="text-subtitle text-black/[.60]" />
-              <div className="flex items-center space-x-2 text-subtitle">
-                <p>{startDate ? startDate.toDateString() : "Start date"}</p>
-                <p>-</p>
-                <p>{endDate ? endDate.toDateString() : "End date"}</p>
-              </div>
-            </div>
-
-            <div className="absolute top-[33rem]" ref={popupRef}>
-              {datePopupVisible ? (
-                <DateRangePopup
-                  onDateSelect={handleDateSelect}
-                  initialStartDate={startDate}
-                  initialEndDate={endDate}
-                />
-              ) : null}
-            </div>
-          </div>
-        </div> */}
         {transactions.length === 0 ? (
           <div>
             <div className="flex justify-center">
@@ -171,6 +115,43 @@ export default function TransactionsMain() {
                     )}
                   </div>
                 </div>
+
+                <div className="sm:block md:block lg:hidden">
+                      <div className="flex items-center">
+                        <p className="w-full capitalize text-subtitle font-semibold">
+                          {transaction.title}
+                        </p>
+                        <div className="flex justify-end capitalize items-center">
+                          {transaction.is_income ? (
+                            <div className="flex items-center">
+                              <BsDot className="text-[1.5rem] text-green" />
+                              <p className="text-green rounded-sm font-semibold">
+                                income
+                              </p>
+                            </div>
+                          ) : (
+                            <div className="flex items-center">
+                              <BsDot className="text-[1.5rem] text-red" />
+                              <p className="text-red rounded-sm font-semibold">
+                                Expence
+                              </p>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                      <div className="flex items-center text-black/[.60]">
+                        <p className="w-full capitalize text--subtitle">
+                          {transaction.category}
+                        </p>
+                        <p className="w-[60%] flex justify-end text-subtitle">
+                          {userData.currency}{" "}
+                          {formatNumber(transaction.amount.$numberDecimal)}
+                        </p>
+                      </div>
+                      <p className="text-subtitle text-black/[.60]">
+                        {formatDate(transaction.date)}
+                      </p>
+                    </div>
               </div>
             ))}
           </div>
