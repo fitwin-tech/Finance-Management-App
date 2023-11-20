@@ -80,7 +80,7 @@ export default function Header() {
           >
             {userData.firstname} {userData.lastname}
           </p>
-          <div className="relative sm:hidden">
+          <div className="relative sm:hidden md:block">
             <IoMdArrowDropdown
               className={`text-[1.3rem] hover:cursor-pointer inline ml-1 transform ${
                 isOpen ? "rotate-180" : "rotate-0"

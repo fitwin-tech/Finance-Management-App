@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useAnalitics } from "../../Context/AnaliticsContext";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
@@ -16,6 +16,23 @@ export default function AddTransactions({ onClose, setTransactions }) {
   const [amount, setAmount] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [successMessege, setSuccessMessege] = useState("");
+
+  useEffect(() => {
+    setDate(getTodayDate()); // Update date when the component mounts
+  }, []); // Empty dependency array to run the effect only once
+
+  const getTodayDate = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    let month = today.getMonth() + 1;
+    let day = today.getDate();
+
+    // Add leading zero if month or day is less than 10
+    month = month < 10 ? `0${month}` : month;
+    day = day < 10 ? `0${day}` : day;
+
+    return `${year}-${month}-${day}`;
+  };
 
   const handleCategoryClick = (title, _id) => {
     setCategoryTitle(title);
@@ -106,7 +123,7 @@ export default function AddTransactions({ onClose, setTransactions }) {
           <p className="font-semibold">Date</p>
           <input
             type="date"
-            className="border outline-none p-2 px-4 w-full rounded-md"
+            className="border outline-none p-2 px-4 w-full rounded-md text-black"
             onChange={(e) => setDate(e.target.value)}
             value={date}
           />

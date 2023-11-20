@@ -78,10 +78,10 @@ export default function AddCategories() {
       <p className="text-red">{errorMessege}</p>
 
       <div className="sm:hidden md:block lg:block">
-        <div className="w-full capitalize md:grid-cols-2 lg:grid-cols-3 gap-4 grid">
+        <div className="w-full capitalize md:grid-cols-2 lg:grid-cols-3 gap-4 grid overflow-y-auto h-full max-h-[200px] scrollbar-hidden">
           {categoryList.map((index) => (
             <div
-              className={`p-2 px-4 rounded-sm text-center text-subtitle ${
+              className={`p-2 px-4 rounded-sm text-center text-subtitle  ${
                 index.is_income
                   ? "text-green bg-green/[.15]"
                   : "text-red bg-red/[.15]"
@@ -116,7 +116,9 @@ export default function AddCategories() {
             checked={isIncome}
             onChange={handleIncomeChange}
           />
-          <p className="cursor-pointer" onClick={handleIncomeChange}>income</p>
+          <p className="cursor-pointer" onClick={handleIncomeChange}>
+            income
+          </p>
         </div>
         <div className="flex items-center space-x-2">
           <input
@@ -124,7 +126,9 @@ export default function AddCategories() {
             checked={isExpence}
             onChange={handleExpenceChange}
           />
-          <p className="cursor-pointer" onClick={handleExpenceChange}>expence</p>
+          <p className="cursor-pointer" onClick={handleExpenceChange}>
+            expence
+          </p>
         </div>
       </div>
 
