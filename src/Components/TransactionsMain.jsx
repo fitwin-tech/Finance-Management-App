@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useAnalitics } from "../Context/AnaliticsContext";
 import AddTransactions from "../Components/Popups/AddTransactions";
+import { useNavigate } from "react-router-dom";
 import { BsDot } from "react-icons/bs";
 import api from "../Api";
 import axios from "axios";
@@ -11,6 +12,8 @@ export default function TransactionsMain() {
   const [transactions, setTransactions] = useState([]);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const navigate = useNavigate();
 
   const openPopup = () => {
     setPopupVisible(true);
@@ -29,23 +32,29 @@ export default function TransactionsMain() {
         },
       })
       .then((response) => {
-        const sortedTransactions = response.data.transactions
+        const fetchedTransactions = response.data.transactions;
+        const filteredTransactions = fetchedTransactions
           .filter((transaction) => {
-            if (startDate && endDate) {
-              const transactionDate = new Date(transaction.date);
-              return transactionDate >= startDate && transactionDate <= endDate;
-            }
-            return true; // No date range selected, include all transactions
+            const searchMatches =
+              transaction.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+              transaction.category.toLowerCase().includes(searchTerm.toLowerCase());
+
+            const dateMatches =
+              (!startDate || !endDate) ||
+              (new Date(transaction.date) >= new Date(startDate) &&
+                new Date(transaction.date) <= new Date(endDate));
+
+            return searchMatches && dateMatches;
           })
           .sort((a, b) => new Date(b.date) - new Date(a.date));
 
-        setTransactions(sortedTransactions);
+        setTransactions(filteredTransactions);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
-        //setLoading(true);
+        // setLoading(true);
       });
-  }, [userData.id, startDate, endDate]);
+  }, [userData.id, startDate, endDate, searchTerm]);
 
   // Helper function to format the date
   function formatDate(dateString) {
@@ -67,12 +76,46 @@ export default function TransactionsMain() {
           <div className="w-[150px] flex justify-end">
             <button
               onClick={openPopup}
-              className="bg-primary px-4 py-2 rounded-md text-white hover:bg-button_hover text-subtitle capitalize"
+              className="bg-primary px-4 py-2 rounded-md text-white hover:bg-button_hover text-subtitle capitalize sm:hidden md:block"
+            >
+              Add new
+            </button>
+            <button
+              onClick={() => navigate("/addnew")}
+              className="bg-primary px-4 py-2 rounded-md text-white hover:bg-button_hover text-subtitle capitalize sm:block md:hidden"
             >
               Add new
             </button>
           </div>
         </div>
+        <div className="space-x-2 sm:hidden md:flex">
+          <div className="border rounded-md w-full flex items-center p-2">
+            <input
+              className="w-full outline-none"
+              placeholder="Search..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
+
+          <div className="border rounded-md w-full flex items-center p-2 flex items-center space-x-2">
+            <input
+              className="w-full outline-none"
+              type="date"
+              placeholder="Start Date"
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+            />
+            <input
+              className="w-full outline-none"
+              type="date"
+              placeholder="End Date"
+              value={endDate}
+              onChange={(e) => setEndDate(e.target.value)}
+            />
+          </div>
+        </div>
+
         {transactions.length === 0 ? (
           <div>
             <div className="flex justify-center">
@@ -84,12 +127,10 @@ export default function TransactionsMain() {
             </div>
           </div>
         ) : (
-          <div className="space-y-4 overflow-y-auto h-[400px] scrollbar-hidden">
+          <div className="space-y-4 overflow-y-auto max-h-[400px] h-full scrollbar-hidden">
             {transactions.map((transaction) => (
               <div key={transaction.id}>
-                <div
-                  className="grid-cols-4 gap-4 text-subtitle text-black/[.70] sm:hidden md:hidden lg:grid"
-                >
+                <div className="grid-cols-4 gap-4 text-subtitle text-black/[.70] sm:hidden md:hidden lg:grid">
                   <div>
                     <p className="font-semibold text-black capitalize">
                       {transaction.title}
@@ -117,41 +158,41 @@ export default function TransactionsMain() {
                 </div>
 
                 <div className="sm:block md:block lg:hidden">
-                      <div className="flex items-center">
-                        <p className="w-full capitalize text-subtitle font-semibold">
-                          {transaction.title}
-                        </p>
-                        <div className="flex justify-end capitalize items-center">
-                          {transaction.is_income ? (
-                            <div className="flex items-center">
-                              <BsDot className="text-[1.5rem] text-green" />
-                              <p className="text-green rounded-sm font-semibold">
-                                income
-                              </p>
-                            </div>
-                          ) : (
-                            <div className="flex items-center">
-                              <BsDot className="text-[1.5rem] text-red" />
-                              <p className="text-red rounded-sm font-semibold">
-                                Expence
-                              </p>
-                            </div>
-                          )}
+                  <div className="flex items-center">
+                    <p className="w-full capitalize text-subtitle font-semibold">
+                      {transaction.title}
+                    </p>
+                    <div className="flex justify-end capitalize items-center">
+                      {transaction.is_income ? (
+                        <div className="flex items-center">
+                          <BsDot className="text-[1.5rem] text-green" />
+                          <p className="text-green rounded-sm font-semibold">
+                            income
+                          </p>
                         </div>
-                      </div>
-                      <div className="flex items-center text-black/[.60]">
-                        <p className="w-full capitalize text--subtitle">
-                          {transaction.category}
-                        </p>
-                        <p className="w-[60%] flex justify-end text-subtitle">
-                          {userData.currency}{" "}
-                          {formatNumber(transaction.amount.$numberDecimal)}
-                        </p>
-                      </div>
-                      <p className="text-subtitle text-black/[.60]">
-                        {formatDate(transaction.date)}
-                      </p>
+                      ) : (
+                        <div className="flex items-center">
+                          <BsDot className="text-[1.5rem] text-red" />
+                          <p className="text-red rounded-sm font-semibold">
+                            Expense
+                          </p>
+                        </div>
+                      )}
                     </div>
+                  </div>
+                  <div className="flex items-center text-black/[.60]">
+                    <p className="w-full capitalize text--subtitle">
+                      {transaction.category}
+                    </p>
+                    <p className="w-[60%] flex justify-end text-subtitle">
+                      {userData.currency}{" "}
+                      {formatNumber(transaction.amount.$numberDecimal)}
+                    </p>
+                  </div>
+                  <p className="text-subtitle text-black/[.60]">
+                    {formatDate(transaction.date)}
+                  </p>
+                </div>
               </div>
             ))}
           </div>

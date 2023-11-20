@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useAnalitics } from "../Context/AnaliticsContext";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
+import { useNavigate } from "react-router-dom";
 import api from "../Api";
 import axios from "axios";
 
@@ -17,6 +18,7 @@ export default function AddTransactionsMobile() {
   const [isLoading, setIsLoading] = useState(false);
   const [successMessege, setSuccessMessege] = useState("");
   const [errorMessege, setErrorMessege] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     setDate(getTodayDate()); // Update date when the component mounts
@@ -184,7 +186,7 @@ export default function AddTransactionsMobile() {
       </div>
       <div className="space-x-2 flex justify-end pt-4 pb-24">
         <div className="border rounded-md border-primary hover:bg-button_hover text-subtitle capitalize">
-          <button className="text-primary px-4 py-2 rounded-md hover:text-white">
+          <button onClick={() => navigate("/")} className="text-primary px-4 py-2 rounded-md hover:text-white">
             Cancel
           </button>
         </div>
