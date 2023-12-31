@@ -24,12 +24,7 @@ export default function Header() {
       id: 2,
       name: "Transactions",
       Url: "/transactions",
-    },
-    {
-      id: 4,
-      name: "Settings",
-      Url: "/settings",
-    },
+    }
   ];
   const dropdown = [
     {

@@ -115,7 +115,7 @@ export default function Settings() {
             <div className="text-title font-semibold py-4 border-b border-black/[.15]">
               <h1>Password & Security</h1>
             </div>
-            <div className="space-y-4 mt-4">
+            <div className="space-y-4 mt-4 pb-10">
               <div className="flex items-center w-full">
                 <div className="w-[20%]">
                   <h1 className="font-semibold capitalize">Currant Password</h1>
